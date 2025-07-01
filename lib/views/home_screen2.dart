@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:accordion/accordion.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:skeleton_text/skeleton_text.dart';
 import 'package:testapp/models/product_model.dart';
 
 class HomeScreen2 extends StatefulWidget {
@@ -16,6 +15,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
   bool _isloading = false;
   dynamic fetchedData;
   late Product product;
+
   // late ProductList productList;
   @override
   void initState() {
@@ -53,68 +53,68 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: Text("Home Screen 2")),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     _productList;
-      //   },
-      // ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        alignment: Alignment.center,
-        child: _isloading
-            ? CircularProgressIndicator()
-            : SizedBox(
-                width: double.infinity,
-                height: double.infinity / 2,
-                child: Accordion(
-                  paddingBetweenClosedSections: 20,
-                  paddingBetweenOpenSections: 20,
-                  paddingListHorizontal: 20,
-                  headerBackgroundColor: Colors.deepPurple,
-                  headerPadding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _productList(accessToken: "b4b7fc5a332ef9451d288fe0cdea5a2d");
+        },
+      ),
+      body: _isloading
+          ? Column(
+              children: List.generate(
+                6,
+                (index) => SkeletonAnimation(
+                  gradientColor: Colors.deepPurple,
+                  child: Container(
+                    width: size.width,
+                    height: 100,
+                    color: Colors.grey[300],
+                    margin: EdgeInsets.only(bottom: 10),
                   ),
-                  scaleWhenAnimating: true,
-                  children: [
-                    AccordionSection(
-                      header: Text(
-                        product.id,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      content: Column(
-                        children: [
-                          _buildDetailRow("Title", product.title),
-                          const SizedBox(height: 8),
-                          _buildDetailRow("Type", product.productType),
-                          const SizedBox(height: 8),
-                          _buildDetailRow("Handle", product.handle),
-                          const SizedBox(height: 8),
-                          Text(
-                            "Description:",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            product.description,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
               ),
-      ),
+            )
+          : Accordion(
+              paddingBetweenClosedSections: 20,
+              paddingBetweenOpenSections: 20,
+              paddingListHorizontal: 20,
+              headerBackgroundColor: Colors.deepPurple,
+              headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              scaleWhenAnimating: true,
+              children: [
+                AccordionSection(
+                  header: Text(
+                    product.id,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  content: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildDetailRow("Title", product.title),
+                      const SizedBox(height: 8),
+                      _buildDetailRow("Type", product.productType),
+                      const SizedBox(height: 8),
+                      _buildDetailRow("Handle", product.handle),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Description:",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        product.description,
+                        style: TextStyle(fontSize: 15, color: Colors.black87),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
     );
   }
 

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:testapp/views/home_screen2.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testapp/views/home_screen3.dart';
+
+import 'bloc/product_bloc.dart';
 
 void main() async {
   runApp(MyApp());
@@ -28,7 +31,11 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: HomeScreen2(),
+      // home: HomeScreen2(),
+      home: MultiBlocProvider(
+        providers: [BlocProvider(create: (context) => GetProductBloc())],
+        child: HomeScreen3(),
+      ),
     );
   }
 }

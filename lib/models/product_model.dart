@@ -27,16 +27,3 @@ class Product {
     );
   }
 }
-
-class ProductList {
-  final List<Product> products;
-
-  ProductList({required this.products});
-
-  factory ProductList.fromJson(Map<String, dynamic> json) {
-    final edges = json['data']['products']['edges'] as List;
-    final products = edges.map((e) => Product.fromJson(e['node'])).toList();
-
-    return ProductList(products: products);
-  }
-}
