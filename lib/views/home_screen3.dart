@@ -1,6 +1,7 @@
 import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 import 'package:testapp/bloc/product_bloc.dart';
 import 'package:testapp/bloc/product_event.dart';
@@ -38,21 +39,50 @@ class _HomeScreen3State extends State<HomeScreen3> {
       ),
       body: BlocBuilder<GetProductBloc, ProductState>(
         builder: (context, state) {
+          Size size = MediaQuery.of(context).size;
           if (state.isLoading) {
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  children: List.generate(6, (index) => _loadingSkeleton()),
+                  children: List.generate(15, (index) => _loadingSkeleton()),
                 ),
               ),
             );
           } else if (state.error != null) {
-            return Center(child: Text('Error: ${state.error}'));
+            return Center(
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/error.svg',
+                    fit: BoxFit.fitWidth,
+                    width: size.width,
+                  ),
+                  Text('Error: ${state.error}'),
+                ],
+              ),
+            );
           } else if (state.product != null) {
             final product = state.product;
             return SingleChildScrollView(
               child: _productWidget(product: product!),
+            );
+          } else if (state.product == null) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/noData.svg',
+                  fit: BoxFit.fitWidth,
+                  width: size.width / 2,
+                  alignment: Alignment.center,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text("No Product Found", textAlign: TextAlign.center),
+                ),
+              ],
             );
           } else {
             return SizedBox();
@@ -73,14 +103,6 @@ class _HomeScreen3State extends State<HomeScreen3> {
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            colors: [
-              Colors.purpleAccent,
-              Colors.purple,
-              Colors.deepPurpleAccent,
-              Colors.deepPurple,
-            ],
-          ),
         ),
       ),
     );
