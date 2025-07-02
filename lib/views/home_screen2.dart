@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:accordion/accordion.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ class HomeScreen2 extends StatefulWidget {
 }
 
 class _HomeScreen2State extends State<HomeScreen2> {
-  bool _isloading = false;
+  bool _isLoading = false;
   dynamic fetchedData;
   late Product product;
 
@@ -25,7 +27,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   Future<void> _productList({required accessToken}) async {
     setState(() {
-      _isloading = true;
+      _isLoading = true;
     });
     var headers = {
       'X-Shopify-Storefront-Access-Token': accessToken,
@@ -40,14 +42,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
       data: data,
     );
     setState(() {
-      _isloading = false;
+      _isLoading = false;
     });
 
     if (response.statusCode == 200) {
       product = Product.fromJson(response.data);
       // productList = ProductList.fromJson(response.data);
     } else {
-      print(response.statusMessage);
+      log("Response Code: ${response.statusMessage}");
     }
   }
 
@@ -61,7 +63,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
           _productList(accessToken: "b4b7fc5a332ef9451d288fe0cdea5a2d");
         },
       ),
-      body: _isloading
+      body: _isLoading
           ? Column(
               children: List.generate(
                 6,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:skeleton_text/skeleton_text.dart';
@@ -10,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var result;
+  late dynamic result;
 
   Future<void> apiCall() async {
     final HttpLink httpLink = HttpLink(
@@ -24,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       QueryOptions(
         document: gql("""
         query Hello {
-          hello(person: { name: "Devv" })
+          hello(person: { name: "Dev" })
         }
       """),
       ),
@@ -32,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       result = res;
     });
-    print(result);
+    log(result);
   }
 
   @override
