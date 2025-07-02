@@ -1,10 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:testapp/views/home_screen3.dart';
-
-import 'bloc/product_bloc.dart';
+import 'package:testapp/features/home_screen/data/datasource/product_data_source.dart';
+import 'package:testapp/features/home_screen/data/repositories/product_repository_impl.dart';
+import 'package:testapp/features/home_screen/domain/usecase/get_products.dart';
+import 'package:testapp/features/home_screen/presentation/view/home_screen3.dart';
+import 'features/home_screen/presentation/bloc/product_bloc.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -13,6 +17,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dio = Dio();
+    final remoteDataSource = ProductDataSource(dio);
+    final repository = ProductRepositoryImpl(remoteDataSource);
+    final getProducts = GetProducts(repository);
     return MaterialApp(
       title: "GraphQL Api Call",
       debugShowCheckedModeBanner: false,
@@ -33,7 +41,11 @@ class MyApp extends StatelessWidget {
 
       // home: HomeScreen2(),
       home: MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => GetProductBloc())],
+        providers: [
+          BlocProvider<GetProductBloc>(
+            create: (_) => GetProductBloc(getProducts),
+          ),
+        ],
         child: HomeScreen3(),
       ),
     );

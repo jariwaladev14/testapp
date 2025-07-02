@@ -4,7 +4,7 @@ import 'package:accordion/accordion.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:testapp/models/product_model.dart';
+import 'package:testapp/features/home_screen/domain/entities/product.dart';
 
 class HomeScreen2 extends StatefulWidget {
   const HomeScreen2({super.key});

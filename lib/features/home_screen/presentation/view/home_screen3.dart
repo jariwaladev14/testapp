@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:testapp/bloc/product_bloc.dart';
-import 'package:testapp/bloc/product_event.dart';
-import 'package:testapp/bloc/product_state.dart';
-
-import '../models/product_model.dart';
+import 'package:testapp/features/home_screen/domain/entities/product.dart';
+import 'package:testapp/features/home_screen/presentation/bloc/product_bloc.dart';
+import 'package:testapp/features/home_screen/presentation/bloc/product_event.dart';
+import 'package:testapp/features/home_screen/presentation/bloc/product_state.dart';
 
 class HomeScreen3 extends StatefulWidget {
   const HomeScreen3({super.key});
