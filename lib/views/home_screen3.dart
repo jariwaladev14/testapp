@@ -6,6 +6,8 @@ import 'package:testapp/bloc/product_bloc.dart';
 import 'package:testapp/bloc/product_event.dart';
 import 'package:testapp/bloc/product_state.dart';
 
+import '../models/product_model.dart';
+
 class HomeScreen3 extends StatefulWidget {
   const HomeScreen3({super.key});
 
@@ -24,7 +26,6 @@ class _HomeScreen3State extends State<HomeScreen3> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(title: Text("Home Screen 3")),
       floatingActionButton: FloatingActionButton(
@@ -33,92 +34,96 @@ class _HomeScreen3State extends State<HomeScreen3> {
             GetProductData(accessToken: "b4b7fc5a332ef9451d288fe0cdea5a2d"),
           );
         },
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.refresh, color: Colors.white),
       ),
       body: BlocBuilder<GetProductBloc, ProductState>(
         builder: (context, state) {
-          final product = state.product;
-
-          if (product == null) {
-            // Show loading skeletons
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: List.generate(
-                  6,
-                  (index) => SkeletonAnimation(
-                    gradientColor: Colors.deepPurple,
-                    child: Container(
-                      width: size.width,
-                      height: 100,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.purpleAccent,
-                            Colors.purple,
-                            Colors.deepPurpleAccent,
-                            Colors.deepPurple,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+          if (state.isLoading) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: List.generate(6, (index) => _loadingSkeleton()),
                 ),
               ),
+            );
+          } else if (state.error != null) {
+            return Center(child: Text('Error: ${state.error}'));
+          } else if (state.product != null) {
+            final product = state.product;
+            return SingleChildScrollView(
+              child: _productWidget(product: product!),
             );
           } else {
-            // Show product details
-            return SingleChildScrollView(
-              child: Accordion(
-                paddingBetweenClosedSections: 20,
-                paddingBetweenOpenSections: 20,
-                paddingListHorizontal: 20,
-                headerBackgroundColor: Colors.deepPurple,
-                headerPadding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                scaleWhenAnimating: true,
-                children: [
-                  AccordionSection(
-                    header: Text(
-                      product.title,
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildDetailRow("ID", product.id),
-                        _buildDetailRow("Type", product.productType),
-                        _buildDetailRow("Handle", product.handle),
-                        const SizedBox(height: 12),
-                        Text(
-                          "Description:",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          product.description,
-                          style: TextStyle(fontSize: 15, color: Colors.black87),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return SizedBox();
           }
         },
       ),
     );
   }
 
-  Widget _buildDetailRow(String label, String value) {
+  SkeletonAnimation _loadingSkeleton() {
+    Size size = MediaQuery.of(context).size;
+    return SkeletonAnimation(
+      gradientColor: Colors.deepPurple,
+      child: Container(
+        width: size.width,
+        margin: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            colors: [
+              Colors.purpleAccent,
+              Colors.purple,
+              Colors.deepPurpleAccent,
+              Colors.deepPurple,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Accordion _productWidget({required Product product}) {
+    return Accordion(
+      paddingBetweenClosedSections: 20,
+      paddingBetweenOpenSections: 20,
+      paddingListHorizontal: 20,
+      headerBackgroundColor: Colors.deepPurple,
+      headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      scaleWhenAnimating: true,
+      children: [
+        AccordionSection(
+          header: Text(
+            product.title,
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildDetailRow(label: "ID", value: product.id),
+              _buildDetailRow(label: "Type", value: product.productType),
+              _buildDetailRow(label: "Handle", value: product.handle),
+              const SizedBox(height: 12),
+              Text(
+                "Description:",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                product.description,
+                style: TextStyle(fontSize: 15, color: Colors.black87),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDetailRow({required String label, required String value}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(

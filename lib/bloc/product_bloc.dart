@@ -25,16 +25,18 @@ class GetProductBloc extends Bloc<ProductEvent, ProductState> {
         );
 
         if (response.statusCode == 200) {
-          // product = ProductState.fromJson(response.data);
-          if (response.statusCode == 200) {
-            final product = Product.fromJson(response.data);
-            emit(ProductState(product: product));
-          }
+          final product = Product.fromJson(response.data);
+          emit(ProductState.success(product: product));
         } else {
-          print(response.statusMessage);
+          final errorMsg =
+              'Error ${response.statusCode}: ${response.statusMessage}';
+          log(errorMsg);
+          emit(ProductState.failure(error: errorMsg));
         }
       } catch (e) {
-        log("Error:${e}");
+        final error = 'An unexpected error occurred: $e';
+        log(error);
+        emit(ProductState.failure(error: error));
       }
     });
   }
