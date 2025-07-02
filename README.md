@@ -28,7 +28,7 @@ Made using the Bloc State management.
 ---
 
 ## Typical Flutter Project Structure
-
+```
 lib/
     app/                          <--- application layer
         pages/                        <-- pages or screens
@@ -55,4 +55,4 @@ lib/
           login_usecase.dart          <-- example usecase extends `UseCase` or `CompletableUseCase`
         repositories/               <--- abstract classes that define functionality for data and device layers
     main.dart                     <--- entry point
-                  
+```           
