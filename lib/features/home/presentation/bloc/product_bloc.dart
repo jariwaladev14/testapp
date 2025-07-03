@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:testapp/features/home_screen/domain/usecase/get_products.dart';
-import 'package:testapp/features/home_screen/presentation/bloc/product_event.dart';
-import 'package:testapp/features/home_screen/presentation/bloc/product_state.dart';
+import 'package:testapp/features/home/domain/usecase/get_products.dart';
+import 'package:testapp/features/home/presentation/bloc/product_event.dart';
+import 'package:testapp/features/home/presentation/bloc/product_state.dart';
 
 class GetProductBloc extends Bloc<ProductEvent, ProductState> {
   final GetProducts getProducts;

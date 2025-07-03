@@ -1,6 +1,6 @@
-import 'package:testapp/features/home_screen/data/datasource/product_data_source.dart';
-import 'package:testapp/features/home_screen/domain/entities/product.dart';
-import 'package:testapp/features/home_screen/domain/repositories/product_repository.dart';
+import 'package:testapp/features/home/data/datasource/product_data_source.dart';
+import 'package:testapp/features/home/domain/entities/product.dart';
+import 'package:testapp/features/home/domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductDataSource remoteDataSource;

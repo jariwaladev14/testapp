@@ -1,5 +1,5 @@
-import 'package:testapp/features/home_screen/domain/entities/product.dart';
-import 'package:testapp/features/home_screen/domain/repositories/product_repository.dart';
+import 'package:testapp/features/home/domain/entities/product.dart';
+import 'package:testapp/features/home/domain/repositories/product_repository.dart';
 
 class GetProducts {
   final ProductRepository repository;

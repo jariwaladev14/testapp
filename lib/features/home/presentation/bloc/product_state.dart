@@ -1,4 +1,4 @@
-import 'package:testapp/features/home_screen/domain/entities/product.dart';
+import 'package:testapp/features/home/domain/entities/product.dart';
 
 class ProductState {
   final Product? product;

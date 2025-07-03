@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:testapp/features/home_screen/domain/entities/product.dart';
-import 'package:testapp/features/home_screen/presentation/bloc/product_bloc.dart';
-import 'package:testapp/features/home_screen/presentation/bloc/product_event.dart';
-import 'package:testapp/features/home_screen/presentation/bloc/product_state.dart';
+import 'package:testapp/core/app_images.dart';
+import 'package:testapp/core/app_routes.dart';
+import 'package:testapp/features/home/domain/entities/product.dart';
+import 'package:testapp/features/home/presentation/bloc/product_bloc.dart';
+import 'package:testapp/features/home/presentation/bloc/product_event.dart';
+import 'package:testapp/features/home/presentation/bloc/product_state.dart';
 
 class HomeScreen3 extends StatefulWidget {
   const HomeScreen3({super.key});
@@ -27,7 +29,17 @@ class _HomeScreen3State extends State<HomeScreen3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home Screen 3")),
+      appBar: AppBar(
+        title: Text("Home Screen 3"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.cart);
+            },
+            icon: Icon(Icons.shopping_cart_outlined),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.read<GetProductBloc>().add(
@@ -53,7 +65,7 @@ class _HomeScreen3State extends State<HomeScreen3> {
               child: Column(
                 children: [
                   SvgPicture.asset(
-                    'assets/error.svg',
+                    AppImages.error,
                     fit: BoxFit.fitWidth,
                     width: size.width,
                   ),
@@ -72,7 +84,7 @@ class _HomeScreen3State extends State<HomeScreen3> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(
-                  'assets/noData.svg',
+                  AppImages.noData,
                   fit: BoxFit.fitWidth,
                   width: size.width / 2,
                   alignment: Alignment.center,

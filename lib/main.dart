@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:testapp/features/home_screen/data/datasource/product_data_source.dart';
-import 'package:testapp/features/home_screen/data/repositories/product_repository_impl.dart';
-import 'package:testapp/features/home_screen/domain/usecase/get_products.dart';
-import 'package:testapp/features/home_screen/presentation/view/home_screen3.dart';
-import 'features/home_screen/presentation/bloc/product_bloc.dart';
+import 'package:testapp/core/app_routes.dart';
+import 'package:testapp/features/home/data/datasource/product_data_source.dart';
+import 'package:testapp/features/home/data/repositories/product_repository_impl.dart';
+import 'package:testapp/features/home/domain/usecase/get_products.dart';
+import 'features/home/presentation/bloc/product_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,32 +21,27 @@ class MyApp extends StatelessWidget {
     final remoteDataSource = ProductDataSource(dio);
     final repository = ProductRepositoryImpl(remoteDataSource);
     final getProducts = GetProducts(repository);
-    return MaterialApp(
-      title: "GraphQL Api Call",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.deepPurple,
-          foregroundColor: Colors.white,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<GetProductBloc>(
+          create: (_) => GetProductBloc(getProducts),
         ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.deepPurple,
-        ),
-        textTheme: TextTheme(
-          // bodySmall: TextStyle(fontSize: 20),
-          // bodyMedium: TextStyle(fontSize: 25),
-        ),
-      ),
-
-      // home: HomeScreen2(),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<GetProductBloc>(
-            create: (_) => GetProductBloc(getProducts),
+      ],
+      child: MaterialApp(
+        title: "GraphQL Api Call",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.deepPurple,
+            foregroundColor: Colors.white,
           ),
-        ],
-        child: HomeScreen3(),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.deepPurple,
+          ),
+        ),
+        initialRoute: AppRoutes.login,
+        routes: AppRoutes.routes,
       ),
     );
   }
