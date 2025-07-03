@@ -1,32 +1,46 @@
+import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:testapp/core/base_api.dart';
 import 'package:testapp/features/home/data/models/product_model.dart';
 
 class ProductDataSource {
-  final Dio dio;
-
-  ProductDataSource(this.dio);
-
+  Api api = Api();
   Future<ProductModel> getProduct({
     required String accessToken,
     required String query,
   }) async {
     try {
-      final response = await dio.post(
-        'https://puja-mobile-app-builder.myshopify.com/api/2025-01/graphql.json',
+      api.sendRequest.options.headers = {
+        'X-Shopify-Storefront-Access-Token': accessToken,
+        'Content-Type': 'application/graphql',
+      };
+      Response response = await api.sendRequest.post(
+        '/2025-01/graphql.json',
         data: query,
-        options: Options(headers: {
-          'X-Shopify-Storefront-Access-Token': accessToken,
-          'Content-Type': 'application/graphql',
-        }),
       );
-
       if (response.statusCode == 200) {
         return ProductModel.fromJson(response.data);
       } else {
-        throw Exception('Failed to load product: ${response.statusCode}');
+        log("Error Status Code:${response.statusCode}");
+        return ProductModel(
+          id: '',
+          title: '',
+          description: '',
+          productType: '',
+          handle: '',
+          descriptionHtml: '',
+        );
       }
     } catch (e) {
-      rethrow;
+      log("Error:$e");
+      return ProductModel(
+        id: '',
+        title: '',
+        description: '',
+        productType: '',
+        handle: '',
+        descriptionHtml: '',
+      );
     }
   }
 }

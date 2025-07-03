@@ -16,6 +16,8 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Shopping Cart"), centerTitle: true),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SvgPicture.asset(AppImages.emptyCart, width: size.width),
           Text("Your Cart Is Empty ", style: TextStyle(fontSize: 25)),
