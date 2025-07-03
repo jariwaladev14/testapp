@@ -130,15 +130,16 @@ class _HomeScreen3State extends State<HomeScreen3> {
       children: [
         AccordionSection(
           header: Text(
-            product.title,
+            product.title ?? '',
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDetailRow(label: "ID", value: product.id),
-              _buildDetailRow(label: "Type", value: product.productType),
-              _buildDetailRow(label: "Handle", value: product.handle),
+              _buildDetailRow(label: "ID", value: product.id ?? ''),
+              _buildDetailRow(label: "Type", value: product.productType ?? ''),
+              _buildDetailRow(label: "Handle", value: product.handle ?? ''),
+              _buildDetailRow(label: "Vendor", value: product.vendor ?? ''),
               const SizedBox(height: 12),
               Text(
                 "Description:",
@@ -146,7 +147,7 @@ class _HomeScreen3State extends State<HomeScreen3> {
               ),
               const SizedBox(height: 4),
               Text(
-                product.description,
+                product.description ?? '',
                 style: TextStyle(fontSize: 15, color: Colors.black87),
               ),
             ],

@@ -7,6 +7,6 @@ class GetProducts {
   GetProducts(this.repository);
 
   Future<Product> call({required String accessToken, required String query}) {
-    return repository.getProduct(accessToken: accessToken, query: query);
+    return repository.getProducts(accessToken: accessToken, query: query);
   }
 }

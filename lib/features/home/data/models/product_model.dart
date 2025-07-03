@@ -5,19 +5,28 @@ class ProductModel {
   final String title;
   final String description;
   final String productType;
+  final String vendor;
   final String handle;
-  final String descriptionHtml;
+  // final List<Options> options;
+  // final List<String> tags;
+  // final List<String> images;
+  // final List<Variants> variants;
+  final int totalInventory;
 
   ProductModel({
     required this.id,
     required this.title,
     required this.description,
     required this.productType,
+    required this.vendor,
     required this.handle,
-    required this.descriptionHtml,
+    // required this.options,
+    // required this.tags,
+    // required this.images,
+    // required this.variants,
+    required this.totalInventory,
   });
 
-  // Factory constructor to create ProductModel from GraphQL JSON
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     final node = json['data']?['node'];
 
@@ -26,13 +35,38 @@ class ProductModel {
     }
 
     return ProductModel(
-      id: node['id'],
-      title: node['title'],
-      description: node['description'],
-      productType: node['productType'],
-      handle: node['handle'],
-      descriptionHtml: node['descriptionHtml'],
+      id: node['id'] ?? '',
+      title: node['title'] ?? '',
+      description: node['description'] ?? '',
+      productType: node['productType'] ?? '',
+      vendor: node['vendor'] ?? '',
+      handle: node['handle'] ?? '',
+      // options: (node['options'] as List<dynamic>? ?? [])
+      //     .map((v) => Options.fromJson(v))
+      //     .toList(),
+      // tags: List<String>.from(node['tags'] ?? []),
+      // images: List<String>.from(node['images'] ?? []),
+      // variants: (node['variants'] as List<dynamic>? ?? [])
+      //     .map((v) => Variants.fromJson(v))
+      //     .toList(),
+      totalInventory: node['totalInventory'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'productType': productType,
+      'vendor': vendor,
+      'handle': handle,
+      // 'options': options.map((v) => v.toJson()).toList(),
+      // 'tags': tags,
+      // 'images': images,
+      // 'variants': variants.map((v) => v.toJson()).toList(),
+      'totalInventory': totalInventory,
+    };
   }
 
   Product toEntity() {
@@ -42,10 +76,72 @@ class ProductModel {
       description: description,
       productType: productType,
       handle: handle,
-      descriptionHtml: descriptionHtml,
     );
   }
 }
+
+class Options {
+  final String name;
+  final List<String> values;
+
+  Options({required this.name, required this.values});
+
+  factory Options.fromJson(Map<String, dynamic> json) {
+    return Options(
+      name: json['name'] ?? '',
+      values: List<String>.from(json['values'] ?? []),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'values': values};
+  }
+}
+
+class Variants {
+  final String id;
+  final String title;
+  final String price;
+  final String? compareAtPrice;
+  final bool availableForSale;
+  final String? image;
+  final int quantityAvailable;
+
+  Variants({
+    required this.id,
+    required this.title,
+    required this.price,
+    this.compareAtPrice,
+    required this.availableForSale,
+    this.image,
+    required this.quantityAvailable,
+  });
+
+  factory Variants.fromJson(Map<String, dynamic> json) {
+    return Variants(
+      id: json['id'] ?? '',
+      title: json['title'] ?? '',
+      price: json['price'] ?? '',
+      compareAtPrice: json['compareAtPrice'],
+      availableForSale: json['availableForSale'] ?? false,
+      image: json['image'],
+      quantityAvailable: json['quantityAvailable'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'price': price,
+      'compareAtPrice': compareAtPrice,
+      'availableForSale': availableForSale,
+      'image': image,
+      'quantityAvailable': quantityAvailable,
+    };
+  }
+}
+
 /*
 
 class ProductModel {

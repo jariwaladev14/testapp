@@ -27,19 +27,30 @@ class ProductDataSource {
           title: '',
           description: '',
           productType: '',
+          vendor: '',
           handle: '',
-          descriptionHtml: '',
+          // options: [],
+          // tags: [],
+          // images: [],
+          // variants: [],
+          totalInventory: 0,
         );
       }
     } catch (e) {
       log("Error:$e");
+      log("came here");
       return ProductModel(
         id: '',
         title: '',
         description: '',
         productType: '',
+        vendor: '',
         handle: '',
-        descriptionHtml: '',
+        // options: [],
+        // tags: [],
+        // images: [],
+        // variants: [],
+        totalInventory: 0,
       );
     }
   }

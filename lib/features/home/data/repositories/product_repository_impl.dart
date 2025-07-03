@@ -8,7 +8,7 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Product> getProduct({
+  Future<Product> getProducts({
     required String accessToken,
     required String query,
   }) async {
@@ -16,7 +16,6 @@ class ProductRepositoryImpl implements ProductRepository {
       accessToken: accessToken,
       query: query,
     );
-    return productModel
-        .toEntity(); // Convert ProductModel to Product entity here
+    return productModel.toEntity();
   }
 }
