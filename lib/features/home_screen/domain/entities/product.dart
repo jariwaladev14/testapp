@@ -14,16 +14,4 @@ class Product {
     required this.descriptionHtml,
     required this.productType,
   });
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    final node = json['data']['node'];
-    return Product(
-      id: node['id'] ?? "",
-      title: node['title'] ?? "",
-      description: node['description'] ?? "",
-      handle: node['handle'] ?? "",
-      descriptionHtml: node['descriptionHtml'] ?? "",
-      productType: node['productType'] ?? "",
-    );
-  }
 }

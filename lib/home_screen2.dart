@@ -4,7 +4,6 @@ import 'package:accordion/accordion.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:testapp/features/home_screen/domain/entities/product.dart';
 
 class HomeScreen2 extends StatefulWidget {
   const HomeScreen2({super.key});
@@ -135,6 +134,36 @@ class _HomeScreen2State extends State<HomeScreen2> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class Product {
+  final String id;
+  final String title;
+  final String description;
+  final String handle;
+  final String descriptionHtml;
+  final String productType;
+
+  Product({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.handle,
+    required this.descriptionHtml,
+    required this.productType,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    final node = json['data']['node'];
+    return Product(
+      id: node['id'] ?? "",
+      title: node['title'] ?? "",
+      description: node['description'] ?? "",
+      handle: node['handle'] ?? "",
+      descriptionHtml: node['descriptionHtml'] ?? "",
+      productType: node['productType'] ?? "",
     );
   }
 }
