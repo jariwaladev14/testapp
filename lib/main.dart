@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testapp/core/app_routes.dart';
-import 'package:testapp/features/home/data/datasource/product_data_source.dart';
-import 'package:testapp/features/home/data/repositories/product_repository_impl.dart';
+import 'package:testapp/core/locator.dart';
 import 'package:testapp/features/home/domain/usecase/get_products.dart';
 import 'features/home/presentation/bloc/product_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   runApp(MyApp());
 }
 
@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final remoteDataSource = ProductDataSource();
-    final repository = ProductRepositoryImpl(remoteDataSource);
-    final getProducts = GetProducts(repository);
+    final getProducts = getIt<GetProducts>();
     return MultiBlocProvider(
       providers: [
         BlocProvider<GetProductBloc>(

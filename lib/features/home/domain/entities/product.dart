@@ -5,10 +5,10 @@ class Product {
   String? productType;
   String? vendor;
   String? handle;
-  List<Options>? options;
-  List<String>? tags;
-  List<String>? images;
-  List<Variants>? variants;
+  // List<Options>? options;
+  // List<String>? tags;
+  // List<String>? images;
+  // List<Variants>? variants;
   int? totalInventory;
 
   Product({
@@ -18,10 +18,10 @@ class Product {
     this.productType,
     this.vendor,
     this.handle,
-    this.options,
-    this.tags,
-    this.images,
-    this.variants,
+    // this.options,
+    // this.tags,
+    // this.images,
+    // this.variants,
     this.totalInventory,
   });
 }
